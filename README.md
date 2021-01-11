@@ -8,6 +8,7 @@ The terminal will print out the board and piece positions (unicode chess pieces;
 ### Topics:
 - Use a server and client with pipes to transmit moves (timers can also be added) - while having the server also update a game state file.
     - Using a timer might deal with shared memory, but we will finalize this after we learn about it in class
+    - If taught in class - Have server/clients work across network would be very nice - Not having to play on same computer
 - Send signals from the different processes (ex: opponent has resigned, show menu for exporting game / resetting the board / pausing game)
 - Exporting games to a file and reading game files
 - Allocating memory to store the matrix of piece locations
@@ -23,6 +24,7 @@ The terminal will print out the board and piece positions (unicode chess pieces;
 - Algorithms to determine what moves are legal
     - Detects if a piece on that square can move to the desired square - and eat
     - Detects if the king is in check/checkmate
+- Variable to keep count of score - Each piece eaten has score value
 
 ### Expected Completion Dates:
 - No project due date so unsure - Time estimates instead with approximate order of completion:
@@ -31,3 +33,5 @@ The terminal will print out the board and piece positions (unicode chess pieces;
     - Algorithm for movement and check/checkmate/eating pieces (2nd-3rd day of work)
     - Establishing save game/menu and signals for pausing/other inputs (4th day of work)
     - Having move timer (5th day of work)
+    - If taught in class - Have server/clients work across network (1 - a few days of work?)
+    - Score system based on pieces eaten and time taken (7th day of work - 1 day total)
