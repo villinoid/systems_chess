@@ -19,6 +19,7 @@ The terminal will print out the board and piece positions (unicode chess pieces;
 
 ### Algorithms/Data Structures:
 - Structs for squares on the board (ex: occupied/not occupied) and for pieces and what moves they are allowed to make
+- Structs? or strings, to transfer info across pipes regarding game state and moves.
 - Algorithms to determine what moves are legal
     - Detects if a piece on that square can move to the desired square - and eat
     - Detects if the king is in check/checkmate
