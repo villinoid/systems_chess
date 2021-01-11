@@ -23,3 +23,11 @@ The terminal will print out the board and piece positions (unicode chess pieces;
 - Algorithms to determine what moves are legal
     - Detects if a piece on that square can move to the desired square - and eat
     - Detects if the king is in check/checkmate
+
+### Expected Completion Dates:
+- No project due date so unsure - Time estimates instead with approximate order of completion:
+    - Have working server/client communication with ability to send moves (1st day of work)
+    - Have console print out board and read in moves (1st day of work)
+    - Algorithm for movement and check/checkmate/eating pieces (2nd-3rd day of work)
+    - Establishing save game/menu and signals for pausing/other inputs (4th day of work)
+    - Having move timer (5th day of work)
