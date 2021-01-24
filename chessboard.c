@@ -19,8 +19,6 @@ char **setup_board() {
 
     row = 0;
     for (row; row < 8; row++) { //placing the pieces into each row
-        
-        //printf("row: %d\n", row);
         int column = 0;
         if (row == 1) { // this is the row of white pawns
             for (column; column < 8; column++) {
@@ -70,11 +68,7 @@ char **setup_board() {
     return chessboard;
 }
 
-void analyze() {
-
-}
-
-wchar_t piece_translate(char piece) {
+wchar_t piece_translate(char piece) { //returns the unicode chess piece
     wchar_t w_king = 0x2654;
     wchar_t w_queen = 0x2655;
     wchar_t w_rook = 0x2656;
@@ -132,9 +126,7 @@ void print_board(char **chessboard) {
         int column = 0;
         for (column; column < 8; column++) {
             if (chessboard[row][column] > 0){
-                wprintf(L"| %lc ", piece_translate(chessboard[row][column]));
-                //wchar_t b_knight = 0x265E;
-                
+                wprintf(L"| %lc ", piece_translate(chessboard[row][column])); //wprintf has to be used from now on with the L infront of " text "
             }
             else {
                 wprintf(L"|   ");
@@ -146,10 +138,17 @@ void print_board(char **chessboard) {
         wprintf(L"\n");
     }
 }
+int *move_parse(char *move) { //turns a move like e2e4 into an array of four numbers (row, column, row, column)
+    int *move_array = malloc(4 * sizeof(int));
+    move_array[0] = move[0] - 97;
+    move_array[1] = move[1] - 49;
+    move_array[2] = move[2] - 97;
+    move_array[3] = move[3] - 49;
+    return move_array;
+}
 
 int main() {
-    
     char ** chessboard = setup_board();
-    print_board(chessboard);
+    print_board(chessboard);   
     return 0; 
 }
