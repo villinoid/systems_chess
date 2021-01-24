@@ -3,20 +3,18 @@
 #include <wchar.h>
 #include <locale.h>
 #include <string.h>
+
 //empty square = 0; pawns = p; knight = n; bishop = b; rook = r; queen = q; king = k
 //uppercase means white piece and lowercase means black piece (ex: r = black rook and R = white rook)
 
 int turn_number = 0; //if turn number even, white to move
 
 char **setup_board() {
-    
     char **chessboard = malloc(64 * sizeof(char)); //creating an array to store each row
-
     int row = 0;
     for (row; row < 8; row++) { //putting an array of eight "squares" in each row
         chessboard[row] = malloc(8 * sizeof(char));
     }
-
     row = 0;
     for (row; row < 8; row++) { //placing the pieces into each row
         int column = 0;
@@ -25,8 +23,7 @@ char **setup_board() {
                 chessboard[row][column] =  'P';
             }
         }
-        else {
-            
+        else {     
             if (row == 6) { // this is the row of black pawns
                 for (column; column < 8; column++) {
                     chessboard[row][column] =  'p';
@@ -62,9 +59,7 @@ char **setup_board() {
                 }
             }
         }
-        
     }
-    
     return chessboard;
 }
 
@@ -121,23 +116,25 @@ wchar_t piece_translate(char piece) { //returns the unicode chess piece
 
 void print_board(char **chessboard) {
     setlocale(LC_CTYPE, ""); //this is so printing chess pieces works
+    wprintf(L"-----------------------------------------\n");
     int row = 0;
     for (row; row < 8; row++) { 
         int column = 0;
         for (column; column < 8; column++) {
             if (chessboard[row][column] > 0){
-                wprintf(L"| %lc ", piece_translate(chessboard[row][column])); //wprintf has to be used from now on with the L infront of " text "
+                wprintf(L"| %lc  ", piece_translate(chessboard[row][column])); //wprintf has to be used from now on with the L infront of " text "
             }
             else {
-                wprintf(L"|   ");
+                wprintf(L"|    ");
             }
             int i = 0;
         }
         wprintf(L"| \n");
-        wprintf(L"---------------------------------");
+        wprintf(L"-----------------------------------------");
         wprintf(L"\n");
     }
 }
+
 int *move_parse(char *move) { //turns a move like e2e4 into an array of four numbers (row, column, row, column)
     int *move_array = malloc(4 * sizeof(int));
     move_array[0] = move[0] - 97;
@@ -147,8 +144,117 @@ int *move_parse(char *move) { //turns a move like e2e4 into an array of four num
     return move_array;
 }
 
+int piece_color(char piece) { //returns 0 if square is empty, 1 if white, 2 if black
+    if ((piece > 96) && (piece < 123)) { // in the range of lowercase letters
+        return 2;
+    } 
+    else {
+        if ((piece > 64) && (piece < 91)) { // in the range of uppercase letters
+            return 1;
+        }
+        else {
+            return 0; //empty square
+        }
+    }
+}
+
+int add_move(char **chessboard, int r, int c, int rook_color, int *tp, int **move_list) {
+    if (piece_color(chessboard[r][c]) == 0) {
+        int *temp_arr = malloc(2*sizeof(int));
+        temp_arr[0] = r;
+        temp_arr[1] = c;
+        move_list[*(tp)] = temp_arr;
+        (*tp)++;
+        return 0;
+    }
+    else {
+        if (piece_color(chessboard[r][c]) != rook_color) {
+            int *temp_arr = malloc(2*sizeof(int));
+            temp_arr[0] = r;
+            temp_arr[1] = c;
+            move_list[*(tp)] = temp_arr;
+            (*tp)++;
+            return 1;
+        }
+        else {
+            return 1;
+        }
+    }
+}
+
+int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int array of where the rook can move
+    int r = row;
+    int c = column;
+    int rook_color = piece_color(chessboard[row][column]);
+    int **move_list = malloc(64 * sizeof(int));
+    int t = 0; //counter variable for the temporary array
+    int *tp = &t;
+    //looks to the ascending rows
+    r++;
+    for (r; r < 8; r++) {
+        
+        if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
+            break;
+        }
+    }
+    r = row;
+    //looks to the descending rows
+    r--;
+    for (r; r > 0; r--) {
+        
+        if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
+            break;
+        }
+    }
+    r= row;
+    //looks to the ascending columns
+    c++;
+    for (c; c < 8; c++) {
+        
+        if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
+            break;
+        }
+    }
+    c = column;
+    //looks to the descending columns
+    c--;
+    for (c; c > 0; c--) {
+       
+        if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
+            break;
+        }
+    }
+    
+    move_list[t + 1] = 0;
+    return move_list;
+}
+
+int pos_moves(int **move_list) {
+    setlocale(LC_CTYPE, "");
+    int i = 0;
+    while(move_list[i]) {
+        wprintf(L"coords: %d, %d\n", move_list[i][0], move_list[i][1]);
+        i++;
+    }
+}
 int main() {
     char ** chessboard = setup_board();
+    chessboard[4][5] = 'r';
+    int **r = rook_moves(chessboard, 4, 5);
+    
+    //printf("coords: %d, %d\n", r[0][1], r[0][1]);
+    pos_moves(r);
+    
     print_board(chessboard);   
+
     return 0; 
 }
+
+/*
+checklist:
+1. piece logic
+2. game over (king is eaten)
+3. who's turn it is
+4. convert to 64-size array
+5. display as black/white
+*/
