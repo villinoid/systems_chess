@@ -14,7 +14,12 @@ int player_choice=0;
 static void sighandler(int signo) {
 	if (signo == SIGINT) {
 		//experimented with a lot of ways, but sending a SIGPIPE signal to server most reliably reset it
-		kill(server_pid, SIGPIPE);
+		if (player_choice=='1'){
+			kill(server_pid, SIGUSR1); //send the server information that client 1 disconnected
+		}
+		if (player_choice=='2'){
+			kill(server_pid, SIGUSR2);//send the server information that client 2 disconnected
+		}
 		close(send);
 		close(receive);
 		exit(0);
@@ -68,18 +73,33 @@ int main() {
 	printf("Sending Message Back to Server to Complete Handshake \n");
 	write(send, "Handshake Complete", buff_size);
 	//program doesn't continue if i don't flush stdin for some reason?
-	fflush(stdin);
+
 
 	while(1) {
-		printf("\nInput: \n");
-		fgets(input, buff_size, stdin);
-		fgets_format(input);
+		
+		if (player_choice=='1'){//player 1 starts the game so it writes a move first
+			printf("\nInput: \n");
+			fgets(input, buff_size, stdin);
+			fgets_format(input);
 
-		write(send, input, buff_size);
+			write(send, input, buff_size);
 
-		read(receive, output, buff_size);
-		printf("\nOutput:\n");
-		printf("Number of Characters: %d\n", output[0]);
+			read(receive, output, buff_size);
+			printf("\nOutput:\n");
+			printf("Number of Characters: %d\n", output[0]);
+		}
+		else {
+			read(receive, output, buff_size);
+			printf("\nOutput:\n");
+			printf("Number of Characters: %d\n", output[0]);
+			
+			printf("\nInput: \n");
+			fgets(input, buff_size, stdin);
+			fgets_format(input);
+
+			write(send, input, buff_size);
+		}
+			
 	}
 
 	return 0;

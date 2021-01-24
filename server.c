@@ -79,9 +79,13 @@ char *count(char *string) {
 
 //Sighandler to cleanly exit
 static void sighandler(int signo) {
-	if (signo == SIGPIPE) {
-		printf("\n\nClient has disconnected...\n\n");
+	if (signo == SIGUSR1) {
+		printf("\n\nClient 1 has disconnected...\n\n");
 		connection_client_1 = 0;
+	}
+	if (signo == SIGUSR2) {
+		printf("\n\nClient 2 has disconnected...\n\n");
+		connection_client_2 = 0;
 	}
 	//CHECK IF THIS IS TRUE - If ctrl+c close both CHECK - DOESNT WORK????
 	if (signo == SIGINT) {
@@ -98,11 +102,12 @@ static void sighandler(int signo) {
 
 int main() {
 	signal(SIGINT, sighandler);
-	signal(SIGPIPE, sighandler);
-
+	signal(SIGUSR1, sighandler);
+	signal(SIGUSR2, sighandler);
+	int did_handshake=0;
 
 	while(1) {
-		int did_handshake=0; //Was handshake done on cycle "bool" var
+		did_handshake=0; //Was handshake done on cycle "bool" var
 		//Check client 1 connection
 		printf("Checking Client 1:\n");
 		if (!connection_client_1) {//If not connected -> hanshake
@@ -125,7 +130,7 @@ int main() {
 				printf("Waiting for move from [Player 1]\n");
 				read(receive1, input, buff_size);
 				printf("Server got [Player 1]: \"%s\"\n",input);
-				write(send1, count(input), buff_size);
+				write(send2, count(input), buff_size);
 				player_turn=2;//Player 2's turn next
 			}
 
@@ -134,7 +139,7 @@ int main() {
 				printf("Waiting for move from [Player 2]\n");
 				read(receive2, input, buff_size);
 				printf("Server got [Player 2]: \"%s\"\n",input);
-				write(send2, count(input), buff_size);
+				write(send1, count(input), buff_size);
 				player_turn=1;//Player 1's turn next
 
 			}
