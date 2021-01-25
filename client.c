@@ -43,6 +43,7 @@ void fgets_format(char* s){
 
 int main() {
 	setlocale(LC_CTYPE, "");
+	int c;
 	signal(SIGINT, sighandler);
 	signal(SIGUSR1, sighandler);
 	char input[buff_size];
@@ -92,15 +93,16 @@ int main() {
 		
 		if (player_choice=='1'){//player 1 starts the game so it writes a move first
 			wprintf(L"\nInput: \n");
-			fflush(stdin);
 			fgets(input, buff_size, stdin);
-			if (strcmp(input, "")){
+			wprintf(L"input: %s\n", input);
+			if (!strcmp(input, "")){
 				fgets(input, buff_size, stdin);
+				c=1;
 			}
 			fgets_format(input);
 			move=move_parse(input);
-			if (move_valid(chessboard,move)){//REPLACE with move_valid when Yulin done
-				while(move_valid(chessboard,move)){//REPLACE with move_valid when Yulin done
+			if (!move_valid(chessboard,move)){//REPLACE with move_valid when Yulin done
+				while(!move_valid(chessboard,move)){//REPLACE with move_valid when Yulin done
 					wprintf(L"Impossible move. Input another.\n");
 					wprintf(L"\nInput: \n");
 					fgets(input, buff_size, stdin);
@@ -110,7 +112,8 @@ int main() {
 			}
 			wprintf(L"moves: %d, %d, %d, %d\n",move[0],move[1],move[2],move[3]);
 			chessboard[move[2]][move[3]]=chessboard[move[0]][move[1]];
-			chessboard[move[0]][move[1]]=0;
+			chessboard[move[0]][move[1]]='+';
+			print_board(chessboard);
 			
 			write_board(chessboard,input);
 			wprintf(L"wrote: %s",input);
@@ -130,14 +133,14 @@ int main() {
 			wprintf(L"\nInput: \n");
 			fgets(input, buff_size, stdin);
 			wprintf(L"input: %s",input);
-			if (strcmp(input, "")){
+			if (!strcmp(input, "")){
 				fgets(input, buff_size, stdin);
 			}
 			fgets_format(input);
 			wprintf(L"move received from stdin: %s",input);
 			move=move_parse(input);
-			if (move_valid(chessboard,move)){////REPLACE with move_valid when Yulin done
-				while(move_valid(chessboard,move)){////REPLACE with move_valid when Yulin done
+			if (!move_valid(chessboard,move)){////REPLACE with move_valid when Yulin done
+				while(!move_valid(chessboard,move)){////REPLACE with move_valid when Yulin done
 					wprintf(L"Impossible move. Input another.\n");
 					wprintf(L"\nInput: \n");
 					fgets(input, buff_size, stdin);
@@ -148,7 +151,7 @@ int main() {
 			wprintf(L"moves: %d, %d, %d, %d\n",move[0],move[1],move[2],move[3]);
 			chessboard[move[2]][move[3]]=chessboard[move[0]][move[1]];
 			chessboard[move[0]][move[1]]='+';
-			
+			print_board(chessboard);
 			write_board(chessboard,input);
 
 			write(send, input, buff_size);

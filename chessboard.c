@@ -27,6 +27,7 @@ void write_board(char **chessboard, char *output){
             output[i*8+j]=chessboard[i][j];
         }
     }
+    output[64]=0;
 }
 
 char **setup_board() {
