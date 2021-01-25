@@ -138,10 +138,12 @@ wchar_t piece_translate(char piece) { //returns the unicode chess piece
 
 void print_board(char **chessboard) {
     setlocale(LC_CTYPE, ""); //this is so printing chess pieces works
-    wprintf(L"-----------------------------------------\n");
     int row = 0;
+    wprintf(L"  | h  | g  | f  | e  | d  | c  | b  | a  |\n");
+    wprintf(L"-------------------------------------------\n");
     for (row; row < 8; row++) { 
         int column = 0;
+        wprintf(L"%d ", row + 1);
         for (column; column < 8; column++) {
             if (chessboard[row][column] != '+'){
                 wprintf(L"| %lc  ", piece_translate(chessboard[row][column])); //wprintf has to be used from now on with the L infront of " text "
@@ -152,7 +154,30 @@ void print_board(char **chessboard) {
             int i = 0;
         }
         wprintf(L"| \n");
-        wprintf(L"-----------------------------------------");
+        wprintf(L"-------------------------------------------");
+        wprintf(L"\n");
+    }
+}
+
+void print_flipped(char **chessboard) {
+    setlocale(LC_CTYPE, ""); //this is so printing chess pieces works
+    int row = 7;
+    wprintf(L"  | a  | b  | c  | d  | e  | f  | g  | h  |\n");
+    wprintf(L"-------------------------------------------\n");
+    for (row; row >= 0; row--) { 
+        int column = 7;
+        wprintf(L"%d ", row + 1);
+        for (column; column >= 0; column--) {
+            if (chessboard[row][column] != '+'){
+                wprintf(L"| %lc  ", piece_translate(chessboard[row][column])); //wprintf has to be used from now on with the L infront of " text "
+            }
+            else {
+                wprintf(L"|    ");
+            }
+            int i = 0;
+        }
+        wprintf(L"| \n");
+        wprintf(L"-------------------------------------------");
         wprintf(L"\n");
     }
 }
@@ -511,27 +536,6 @@ int in_move_list(int **move_list, int r, int c) {
     return 0;
 }
 
-void print_flipped(char **chessboard) {
-    setlocale(LC_CTYPE, ""); //this is so printing chess pieces works
-    wprintf(L"-----------------------------------------\n");
-    int row = 7;
-    for (row; row >= 0; row--) { 
-        int column = 7;
-        for (column; column >= 0; column--) {
-            if (chessboard[row][column] != '+'){
-                wprintf(L"| %lc  ", piece_translate(chessboard[row][column])); //wprintf has to be used from now on with the L infront of " text "
-            }
-            else {
-                wprintf(L"|    ");
-            }
-            int i = 0;
-        }
-        wprintf(L"| \n");
-        wprintf(L"-----------------------------------------");
-        wprintf(L"\n");
-    }
-}
-
 int move_valid(char **chessboard, int *parsed_moves) {
     int a = parsed_moves[0];
     int b = parsed_moves[1];
@@ -550,29 +554,18 @@ int move_valid(char **chessboard, int *parsed_moves) {
         }
     }
 }
-/*
+
 int main() {
     char ** chessboard = setup_board();
-    char move[4] = "e4e2";
-    int *pmove = move_parse(move);
+    //char move[4] = "e4e2";
+    //int *pmove = move_parse(move);
     //printf("%d %d\n", pmove[0], pmove[1]);
     //move_valid(chessboard, pmove);
-    printf("%d\n", move_valid(chessboard, pmove));
+    //printf("%d\n", move_valid(chessboard, pmove));
     // chessboard[5][3] = 'P';
     // int **b = pawn_moves(chessboard, 6, 2);
     // pos_moves(b);
-    // print_board(chessboard);   
+    print_flipped(chessboard);   
 
     return 0; 
 }
-*/
-/*
-checklist:
-1. piece logic
-2. game over (king is eaten)
--comparison function
-3. who's turn it is
-4. convert to 64-size array
-5. display as black/white
-6. add letters/numbers to board
-*/
