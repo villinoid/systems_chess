@@ -3,6 +3,10 @@ By Francesco Siniscalco, Vladislav Vostrikov and Yulin Zheng - Period 10
 
 Our project is a 2 player and 1 server chess game. The board is printed in unicode, and the server manages the turn based gameplay. The game checks whether moves are valid, and has a save game state function.
 
+### Notes
+- Terminal used has to support unicode
+- White terminal is best - otherwise pieces will have inverted colors
+
 ### Libraries
 There are no unusual required Libraries
 
