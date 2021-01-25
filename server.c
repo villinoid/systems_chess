@@ -130,7 +130,7 @@ int main() {
 				printf("Waiting for move from [Player 1]\n");
 				read(receive1, input, buff_size);
 				printf("Server got [Player 1]: \"%s\"\n",input);
-				write(send2, count(input), buff_size);
+				write(send2, input, buff_size);
 				player_turn=2;//Player 2's turn next
 			}
 
@@ -139,7 +139,7 @@ int main() {
 				printf("Waiting for move from [Player 2]\n");
 				read(receive2, input, buff_size);
 				printf("Server got [Player 2]: \"%s\"\n",input);
-				write(send1, count(input), buff_size);
+				write(send1, input, buff_size);
 				player_turn=1;//Player 1's turn next
 
 			}

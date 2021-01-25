@@ -6,5 +6,7 @@ wchar_t piece_translate(char);
 void print_board(char **);
 int *move_parse(char *);
 int piece_color(char);
-int add_move(char **, int, int, int, int *, int **)
+int add_move(char **, int, int, int, int *, int **);
+void read_board(char **, char *);
+void write_board(char **, char *);
 #endif

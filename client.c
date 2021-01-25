@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <signal.h>
+#include "chessboard.h"
 
 int buff_size = 256;
 int send, receive, server_pid;
@@ -38,10 +39,12 @@ int main() {
 	signal(SIGINT, sighandler);
 	char input[buff_size];
 	char output[buff_size];
-
+	int *move;
 	char private_pipe[128];
 	sprintf(private_pipe, "%d", getpid());
 	mkfifo(private_pipe, 0666);
+
+	char **chessboard=setup_board();
 
 	//Query Player 1 or 2
 	// /*
@@ -73,6 +76,7 @@ int main() {
 	printf("Sending Message Back to Server to Complete Handshake \n");
 	write(send, "Handshake Complete", buff_size);
 	//program doesn't continue if i don't flush stdin for some reason?
+	print_board(chessboard);
 
 
 	while(1) {
@@ -81,21 +85,53 @@ int main() {
 			printf("\nInput: \n");
 			fgets(input, buff_size, stdin);
 			fgets_format(input);
+			move=move_parse(input);
+			if (0){//REPLACE with move_valid when Yulin done
+				while(0){//REPLACE with move_valid when Yulin done
+					printf("Impossible move. Input another.\n");
+					printf("\nInput: \n");
+					fgets(input, buff_size, stdin);
+					fgets_format(input);
+					move=move_parse(input);
+				}
+			}
+			
+			chessboard[move[3]][move[4]]=chessboard[move[1]][move[2]];
+			chessboard[move[1]][move[2]]=0;
+			
+			write_board(chessboard,input);
 
 			write(send, input, buff_size);
 
 			read(receive, output, buff_size);
+			read_board(chessboard, output);
 			printf("\nOutput:\n");
-			printf("Number of Characters: %d\n", output[0]);
+			print_board(chessboard);
 		}
 		else {
 			read(receive, output, buff_size);
+			read_board(chessboard, output);
 			printf("\nOutput:\n");
-			printf("Number of Characters: %d\n", output[0]);
+			print_board(chessboard);
 			
 			printf("\nInput: \n");
 			fgets(input, buff_size, stdin);
 			fgets_format(input);
+			move=move_parse(input);
+			if (0){////REPLACE with move_valid when Yulin done
+				while(0){////REPLACE with move_valid when Yulin done
+					printf("Impossible move. Input another.\n");
+					printf("\nInput: \n");
+					fgets(input, buff_size, stdin);
+					fgets_format(input);
+					move=move_parse(input);
+				}
+			}
+			
+			chessboard[move[3]][move[4]]=chessboard[move[1]][move[2]];
+			chessboard[move[1]][move[2]]=0;
+			
+			write_board(chessboard,input);
 
 			write(send, input, buff_size);
 		}
