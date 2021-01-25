@@ -511,6 +511,27 @@ int in_move_list(int **move_list, int r, int c) {
     return 0;
 }
 
+void print_flipped(char **chessboard) {
+    setlocale(LC_CTYPE, ""); //this is so printing chess pieces works
+    wprintf(L"-----------------------------------------\n");
+    int row = 7;
+    for (row; row >= 0; row--) { 
+        int column = 7;
+        for (column; column >= 0; column--) {
+            if (chessboard[row][column] != '+'){
+                wprintf(L"| %lc  ", piece_translate(chessboard[row][column])); //wprintf has to be used from now on with the L infront of " text "
+            }
+            else {
+                wprintf(L"|    ");
+            }
+            int i = 0;
+        }
+        wprintf(L"| \n");
+        wprintf(L"-----------------------------------------");
+        wprintf(L"\n");
+    }
+}
+
 int move_valid(char **chessboard, int *parsed_moves) {
     int a = parsed_moves[0];
     int b = parsed_moves[1];
