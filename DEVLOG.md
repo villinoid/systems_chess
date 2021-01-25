@@ -1,6 +1,6 @@
 # DEVLOG
 
-- 1/12 - Francesco Vlad and Yulin - Worked on Initial Proposal
+- 1/12 - Francesco, Vlad and Yulin - Worked on Initial Proposal
 - 1/18 - Vlad and Yulin - Added server framework - Similar to HW 17 - Server communicates with 1 client - Adapted to work with 2 clients.
 - 1/22 - Francesco - Set server up to read and write to both clients sequentially - Server reads from client 1, writes bac, reads from client 2, writes back, on a loop.
 - 1/23 - Francesco - Started framework for inter client communication on server side (Explicit Handshake call and then read/write code) - Added player selection code (When client runs, it ask whether it should start as player 1 or player 2)
