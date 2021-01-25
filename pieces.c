@@ -19,7 +19,7 @@ int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int a
     r = row;
     //looks to the descending rows
     r--;
-    for (r; r > 0; r--) {
+    for (r; r >= 0; r--) {
         if (add_move(chessboard, r, c, color, tp, move_list)) {
             break;
         }
@@ -35,7 +35,7 @@ int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int a
     c = column;
     //looks to the descending columns
     c--;
-    for (c; c > 0; c--) {
+    for (c; c >= 0; c--) {
         if (add_move(chessboard, r, c, color, tp, move_list)) {
             break;
         }
@@ -58,22 +58,22 @@ int **knight_moves(char **chessboard, int row, int column) {
     if ((r + 1 < 8) && (c + 2 < 8 )) {
         add_move(chessboard, r + 1, c + 2, color, tp, move_list);
     }
-    if ((r + 2 < 8) && (c - 1 > 0)) {
+    if ((r + 2 < 8) && (c - 1 >= 0)) {
         add_move(chessboard, r + 2, c - 1, color, tp, move_list);
     }
-    if ((r + 1 < 8) && (c - 2 > 0)) {
+    if ((r + 1 < 8) && (c - 2 >= 0)) {
         add_move(chessboard, r + 1, c - 2, color, tp, move_list);
     }
-    if ((r - 2 > 0) && (c - 1 > 0)) {
+    if ((r - 2 >= 0) && (c - 1 >= 0)) {
         add_move(chessboard, r - 2, c - 1, color, tp, move_list);
     }
-    if ((r - 1 > 0) && (c - 2 > 0)) {
+    if ((r - 1 >= 0) && (c - 2 >= 0)) {
         add_move(chessboard, r - 1, c - 2, color, tp, move_list);
     }
-    if ((r - 2 > 0) && (c + 1 < 8)) {
+    if ((r - 2 >= 0) && (c + 1 < 8)) {
         add_move(chessboard, r - 2, c + 1, color, tp, move_list);
     }
-    if ((r - 1 > 0) && (c + 2 < 8)) {
+    if ((r - 1 >= 0) && (c + 2 < 8)) {
         add_move(chessboard, r - 1, c + 2, color, tp, move_list);
     }
     move_list[t + 1] = 0;
@@ -100,7 +100,7 @@ int **bishop_moves(char **chessboard, int row, int column) {
     c = column;
     r++;
     c--;
-    while((r < 8) && (c > 0)) {
+    while((r < 8) && (c >= 0)) {
         if (add_move(chessboard, r, c, color, tp, move_list)) {
             break;
         }
@@ -111,7 +111,7 @@ int **bishop_moves(char **chessboard, int row, int column) {
     c = column;
     r--;
     c++;
-    while((r > 0) && (c < 8)) {
+    while((r >= 0) && (c < 8)) {
         if (add_move(chessboard, r, c, color, tp, move_list)) {
             break;
         }
@@ -122,7 +122,7 @@ int **bishop_moves(char **chessboard, int row, int column) {
     c = column;
     r--;
     c--;
-    while((r > 0) && (c > 0)) {
+    while((r >= 0) && (c >= 0)) {
         if (add_move(chessboard, r, c, color, tp, move_list)) {
             break;
         }
@@ -143,25 +143,25 @@ int **king_moves(char **chessboard, int row, int column) {
     if ((r + 1 < 8) && (c + 1 < 8)) {
         add_move(chessboard, r + 1, c + 1, color, tp, move_list);
     }
-    if ((r + 1 < 8) && (c - 1 > 0)) {
+    if ((r + 1 < 8) && (c - 1 >= 0)) {
         add_move(chessboard, r + 1, c - 1, color, tp, move_list);
     }
-    if ((r - 1 > 0) && (c + 1 < 8)) {
+    if ((r - 1 >= 0) && (c + 1 < 8)) {
         add_move(chessboard, r - 1, c + 1, color, tp, move_list);
     }
-    if ((r - 1 > 0) && (c - 1 > 0)) {
+    if ((r - 1 >= 0) && (c - 1 >= 0)) {
         add_move(chessboard, r - 1, c - 1, color, tp, move_list);
     }
     if (r + 1 < 8) {
         add_move(chessboard, r + 1, c, color, tp, move_list);
     }
-    if (r - 1 > 0) {
+    if (r - 1 >= 0) {
         add_move(chessboard, r - 1, c, color, tp, move_list);
     }
     if (c + 1 < 8) {
         add_move(chessboard, r, c + 1, color, tp, move_list);
     }
-    if (c - 1 > 0) {
+    if (c - 1 >= 0) {
         add_move(chessboard, r, c - 1, color, tp, move_list);
     }
     move_list[t + 1] = 0;
@@ -211,7 +211,7 @@ int **pawn_moves(char **chessboard, int row, int column) {
                 pawn_add_move(chessboard, r + 1, c + 1, tp, move_list);
             }
         }
-        if ((r + 1 < 8) && (c - 1 > 0)) {
+        if ((r + 1 < 8) && (c - 1 >= 0)) {
             int p = piece_color(chessboard[r + 1][c - 1]);
             if ((p != color) && (p != 0)) {
                 pawn_add_move(chessboard, r + 1, c - 1, tp, move_list);
@@ -231,19 +231,19 @@ int **pawn_moves(char **chessboard, int row, int column) {
         }
     }
     else {
-        if ((r - 1 > 0) && (c + 1 < 8)) {
+        if ((r - 1 >= 0) && (c + 1 < 8)) {
             int p = piece_color(chessboard[r - 1][c + 1]);
             if ((p != color) && (p != 0)) {
                 pawn_add_move(chessboard, r - 1, c + 1, tp, move_list);
             }
         }
-        if ((r - 1 > 0) && (c - 1 > 0)) {
+        if ((r - 1 >= 0) && (c - 1 >= 0)) {
             int p = piece_color(chessboard[r - 1][c - 1]);
             if ((p != color) && (p != 0)) {
                 pawn_add_move(chessboard, r - 1, c - 1, tp, move_list);
             }
         }
-        if (r - 1 > 0) {
+        if (r - 1 >= 0) {
             int p = piece_color(chessboard[r - 1][c]);
             if (p == 0) {
                 pawn_add_move(chessboard, r - 1, c, tp, move_list);
