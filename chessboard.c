@@ -9,6 +9,26 @@
 
 int turn_number = 0; //if turn number even, white to move
 
+void read_board(char **chessboard, char *input){
+    int i;
+    int j;
+    for(i=0;i<8;i++){
+        for(j=0;j<8;j++){
+            chessboard[i][j]=input[i*8+j];
+        }
+    }
+}
+
+void write_board(char **chessboard, char *output){
+    int i;
+    int j;
+    for(i=0;i<8;i++){
+        for(j=0;j<8;j++){
+            output[i*8+j]=chessboard[i][j];
+        }
+    }
+}
+
 char **setup_board() {
     char **chessboard = malloc(8*sizeof(char*)); //creating an array to store each row
     int row = 0;
@@ -138,10 +158,10 @@ void print_board(char **chessboard) {
 
 int *move_parse(char *move) { //turns a move like e2e4 into an array of four numbers (row, column, row, column)
     int *move_array = malloc(4 * sizeof(int));
-    move_array[0] = move[0] - 97;
-    move_array[1] = move[1] - 49;
-    move_array[2] = move[2] - 97;
-    move_array[3] = move[3] - 49;
+    move_array[0] = move[1]-'1';
+    move_array[1] = (move[0]-'h')*-1;
+    move_array[2] = move[3]-'1';
+    move_array[3] = (move[2]-'h')*-1;
     return move_array;
 }
 
@@ -509,18 +529,18 @@ int move_valid(char **chessboard, int *parsed_moves) {
     }
 }
 
-int main() {
-    char ** chessboard = setup_board();
-    chessboard[5][3] = 'P';
-    int **b = pawn_moves(chessboard, 6, 2);
+// int main() {
+//     char ** chessboard = setup_board();
+//     chessboard[5][3] = 'P';
+//     int **b = pawn_moves(chessboard, 6, 2);
     
     
-    pos_moves(b);
+//     pos_moves(b);
     
-    print_board(chessboard);   
+//     print_board(chessboard);   
 
-    return 0; 
-}
+//     return 0; 
+// }
 
 /*
 checklist:

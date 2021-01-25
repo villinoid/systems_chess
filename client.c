@@ -99,8 +99,8 @@ int main() {
 			}
 			fgets_format(input);
 			move=move_parse(input);
-			if (0){//REPLACE with move_valid when Yulin done
-				while(0){//REPLACE with move_valid when Yulin done
+			if (move_valid(chessboard,move)){//REPLACE with move_valid when Yulin done
+				while(move_valid(chessboard,move)){//REPLACE with move_valid when Yulin done
 					wprintf(L"Impossible move. Input another.\n");
 					wprintf(L"\nInput: \n");
 					fgets(input, buff_size, stdin);
@@ -108,9 +108,9 @@ int main() {
 					move=move_parse(input);
 				}
 			}
-			wprintf(L"moves: %d, %d, %d, %d\n",move[1],move[2],move[3],move[4]);
-			chessboard[move[3]][move[4]]=chessboard[move[1]][move[2]];
-			chessboard[move[1]][move[2]]=0;
+			wprintf(L"moves: %d, %d, %d, %d\n",move[0],move[1],move[2],move[3]);
+			chessboard[move[2]][move[3]]=chessboard[move[0]][move[1]];
+			chessboard[move[0]][move[1]]=0;
 			
 			write_board(chessboard,input);
 			wprintf(L"wrote: %s",input);
@@ -134,9 +134,10 @@ int main() {
 				fgets(input, buff_size, stdin);
 			}
 			fgets_format(input);
+			wprintf(L"move received from stdin: %s",input);
 			move=move_parse(input);
-			if (0){////REPLACE with move_valid when Yulin done
-				while(0){////REPLACE with move_valid when Yulin done
+			if (move_valid(chessboard,move)){////REPLACE with move_valid when Yulin done
+				while(move_valid(chessboard,move)){////REPLACE with move_valid when Yulin done
 					wprintf(L"Impossible move. Input another.\n");
 					wprintf(L"\nInput: \n");
 					fgets(input, buff_size, stdin);
@@ -144,9 +145,9 @@ int main() {
 					move=move_parse(input);
 				}
 			}
-			wprintf(L"moves: %d, %d, %d, %d\n",move[1],move[2],move[3],move[4]);
-			chessboard[move[3]][move[4]]=chessboard[move[1]][move[2]];
-			chessboard[move[1]][move[2]]=0;
+			wprintf(L"moves: %d, %d, %d, %d\n",move[0],move[1],move[2],move[3]);
+			chessboard[move[2]][move[3]]=chessboard[move[0]][move[1]];
+			chessboard[move[0]][move[1]]='+';
 			
 			write_board(chessboard,input);
 
