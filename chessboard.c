@@ -385,7 +385,7 @@ int **pawn_moves(char **chessboard, int row, int column) {
     int **move_list = malloc(32 * sizeof(int*));
     int t = 0; 
     int *tp = &t;
-    if (color) {
+    if (color == 1) {
         if ((r + 1 < 8) && (c + 1 < 8)) {
             int p = piece_color(chessboard[r + 1][c + 1]);
             if ((p != color) && (p != 0)) {
@@ -412,23 +412,23 @@ int **pawn_moves(char **chessboard, int row, int column) {
         }
     }
     else {
-        if ((r - 1 < 8) && (c + 1 < 8)) {
+        if ((r - 1 > 0) && (c + 1 < 8)) {
             int p = piece_color(chessboard[r - 1][c + 1]);
             if ((p != color) && (p != 0)) {
                 pawn_add_move(chessboard, r - 1, c + 1, tp, move_list);
             }
         }
-        if ((r - 1 < 8) && (c - 1 > 0)) {
+        if ((r - 1 > 0) && (c - 1 > 0)) {
             int p = piece_color(chessboard[r - 1][c - 1]);
             if ((p != color) && (p != 0)) {
                 pawn_add_move(chessboard, r - 1, c - 1, tp, move_list);
             }
         }
-        if (r - 1 < 8) {
+        if (r - 1 > 0) {
             int p = piece_color(chessboard[r - 1][c]);
             if (p == 0) {
                 pawn_add_move(chessboard, r - 1, c, tp, move_list);
-                if (row == 1) {
+                if (row == 6) {
                     int p1 = piece_color(chessboard[r - 2][c]);
                     if (p1 == 0) {
                         pawn_add_move(chessboard, r - 2, c, tp, move_list);
@@ -436,7 +436,6 @@ int **pawn_moves(char **chessboard, int row, int column) {
                 }
             }
         }
-
     }
     move_list[t + 1] = 0;
     return move_list;
@@ -451,14 +450,69 @@ int pos_moves(int **move_list) {
     }
 }
 
-int move_valid(int *parsed_moves) {
-    
+int **on_square(char **chessboard, int r, int c) {
+    char piece = chessboard[r][c];
+    int **move_list;
+    if ((piece == 'p') || (piece == 'P')) {
+        move_list = pawn_moves(chessboard, r, c);
+        return move_list;
+    }
+    if ((piece == 'n') || (piece == 'N')) {
+        move_list = knight_moves(chessboard, r, c);
+        return move_list;
+    }
+    if ((piece == 'b') || (piece == 'B')) {
+        move_list = bishop_moves(chessboard, r, c);
+        return move_list;
+    }
+    if ((piece == 'r') || (piece == 'R')) {
+        move_list = rook_moves(chessboard, r, c);
+        return move_list;
+    }
+    if ((piece == 'q') || (piece == 'Q')) {
+        move_list = queen_moves(chessboard, r, c);
+        return move_list;
+    }
+    if ((piece == 'k') || (piece == 'K')) {
+        move_list = king_moves(chessboard, r, c);
+        return move_list;
+    }
+}
+
+int in_move_list(int **move_list, int r, int c) {
+    int i = 0;
+    while (move_list[i]) {
+        if ((move_list[i][0] == r) || (move_list[i][1] == c)) {
+            return 1;
+        }
+        i++;
+    }
+    return 0;
+}
+
+int move_valid(char **chessboard, int *parsed_moves) {
+    int a = parsed_moves[0];
+    int b = parsed_moves[1];
+    int c = parsed_moves[2];
+    int d = parsed_moves[3];
+    if (chessboard[a][b] == '+') {
+        return 0;
+    }
+    else {
+        int **move_list = on_square(chessboard, a, b);
+        if (in_move_list(move_list, c, d)) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
 }
 
 int main() {
     char ** chessboard = setup_board();
-    //chessboard[1][2] = 'P';
-    int **b = pawn_moves(chessboard, 1, 2);
+    chessboard[5][3] = 'P';
+    int **b = pawn_moves(chessboard, 6, 2);
     
     
     pos_moves(b);
