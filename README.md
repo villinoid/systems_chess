@@ -21,6 +21,13 @@ There are no unusual required Libraries
 - #include <wchar.h>
 - #include <locale.h>
 
+### What Aspects of Systems Programming We Used
+- Pipes (Named and Unnamed)
+- Allocating Memory (Storing Chessboard Info)
+- Working with Files (Save Game Functionality)
+- Signals (Checking Client State)
+- Processes (Server, Client1, Client2)
+
 ### Instructions
 - To start compile using make, and start the server with "./server".
 - Start 2 clients using "./client" and when prompted make one player 1 and the other 2.
