@@ -32,11 +32,13 @@ There are no unusual required Libraries
 - To start compile using make, and start the server with "./server".
 - Start 2 clients using "./client" and when prompted make one player 1 and the other 2.
 - You can then decide to load a saved game or start a new one
-- At this point it is player 1's turn, enter a move such as e2e4.
+- At this point it is player 1's turn, enter a move. You start by writing the coordinates of the piece you want to move, letter first then number, and then by writing the coordinates of the place you want to move the piece to (An example move is e2e4. - Don't Worry, "wrong" moves won't be allowed by the program.
 - After a move is entered, it is the other player's turn, and so the game begins!
+- When a king is eaten by another piece, the game will end, and you will be greeted by a victory message.
 - To save the game, type "save" as player 1, and when prompted choose a name for the save file.
 - To exit, both players and server need to "Ctrl+C" - Otherwise the server will attempt a reconnection.
 
 
-### Bugs
+### Bugs/Limitations
 - When attempting a reconnection, the disconnected user's turn will be skipped.
+- Not all chess rules implemented - Castling and Pawn changing when touching the opponents edge of the board not implemented.
