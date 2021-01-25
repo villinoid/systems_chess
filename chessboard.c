@@ -10,10 +10,11 @@
 int turn_number = 0; //if turn number even, white to move
 
 char **setup_board() {
-    char **chessboard = malloc(64 * sizeof(char)); //creating an array to store each row
+    char **chessboard = malloc(8*sizeof(char*)); //creating an array to store each row
     int row = 0;
+    int column;
     for (row; row < 8; row++) { //putting an array of eight "squares" in each row
-        chessboard[row] = malloc(8 * sizeof(char));
+        chessboard[row] = malloc(8*sizeof(char));
     }
     row = 0;
     for (row; row < 8; row++) { //placing the pieces into each row
@@ -186,7 +187,7 @@ int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int a
     int r = row;
     int c = column;
     int rook_color = piece_color(chessboard[row][column]);
-    int **move_list = malloc(64 * sizeof(int));
+    int **move_list = malloc(8 * sizeof(int*));
     int t = 0; //counter variable for the temporary array
     int *tp = &t;
     //looks to the ascending rows
@@ -228,7 +229,7 @@ int **knight_moves(char **chessboard, int row, int column) {
     int r = row;
     int c = column;
     int rook_color = piece_color(chessboard[row][column]);
-    int **move_list = malloc(64 * sizeof(int));
+    int **move_list = malloc(8 * sizeof(int*));
     int t = 0; 
     int *tp = &t;
     
@@ -264,7 +265,7 @@ int **bishop_moves(char **chessboard, int row, int column) {
     int r = row;
     int c = column;
     int rook_color = piece_color(chessboard[row][column]);
-    int **move_list = malloc(64 * sizeof(int));
+    int **move_list = malloc(8 * sizeof(int*));
     int t = 0; 
     int *tp = &t;
     r++;
@@ -325,7 +326,7 @@ int **king_moves(char **chessboard, int row, int column) {
     int r = row;
     int c = column;
     int rook_color = piece_color(chessboard[row][column]);
-    int **move_list = malloc(64 * sizeof(int));
+    int **move_list = malloc(8 * sizeof(int*));
     int t = 0; 
     int *tp = &t;
     
