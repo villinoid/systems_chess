@@ -33,4 +33,3 @@ There are no unusual required Libraries
 
 ### Bugs
 - When attempting a reconnection, the disconnected user's turn will be skipped.
-- Moving White Bishops causes segfault

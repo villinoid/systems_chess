@@ -49,9 +49,9 @@ int **knight_moves(char **chessboard, int row, int column) {
     int c = column;
     int color = piece_color(chessboard[row][column]);
     int **move_list = malloc(32 * sizeof(int*));
-    int t = 0; 
+    int t = 0;
     int *tp = &t;
-    
+
     if ((r + 2 < 8) && (c + 1 < 8)) {
         add_move(chessboard, r + 2, c + 1, color, tp, move_list);
     }
@@ -85,7 +85,7 @@ int **bishop_moves(char **chessboard, int row, int column) {
     int c = column;
     int color = piece_color(chessboard[row][column]);
     int **move_list = malloc(32 * sizeof(int*));
-    int t = 0; 
+    int t = 0;
     int *tp = &t;
     r++;
     c++;
@@ -100,7 +100,7 @@ int **bishop_moves(char **chessboard, int row, int column) {
     c = column;
     r++;
     c--;
-    while((r < 8) && (c > 0)) {  
+    while((r < 8) && (c > 0)) {
         if (add_move(chessboard, r, c, color, tp, move_list)) {
             break;
         }
@@ -122,7 +122,7 @@ int **bishop_moves(char **chessboard, int row, int column) {
     c = column;
     r--;
     c--;
-    while((c > 0) && (c > 0)) {
+    while((r > 0) && (c > 0)) {
         if (add_move(chessboard, r, c, color, tp, move_list)) {
             break;
         }
@@ -138,7 +138,7 @@ int **king_moves(char **chessboard, int row, int column) {
     int c = column;
     int color = piece_color(chessboard[row][column]);
     int **move_list = malloc(32 * sizeof(int*));
-    int t = 0; 
+    int t = 0;
     int *tp = &t;
     if ((r + 1 < 8) && (c + 1 < 8)) {
         add_move(chessboard, r + 1, c + 1, color, tp, move_list);
@@ -202,7 +202,7 @@ int **pawn_moves(char **chessboard, int row, int column) {
     int c = column;
     int color = piece_color(chessboard[row][column]);
     int **move_list = malloc(32 * sizeof(int*));
-    int t = 0; 
+    int t = 0;
     int *tp = &t;
     if (color == 1) {
         if ((r + 1 < 8) && (c + 1 < 8)) {
