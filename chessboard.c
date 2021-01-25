@@ -192,7 +192,6 @@ int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int a
     //looks to the ascending rows
     r++;
     for (r; r < 8; r++) {
-        
         if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
             break;
         }
@@ -201,7 +200,6 @@ int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int a
     //looks to the descending rows
     r--;
     for (r; r > 0; r--) {
-        
         if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
             break;
         }
@@ -210,7 +208,6 @@ int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int a
     //looks to the ascending columns
     c++;
     for (c; c < 8; c++) {
-        
         if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
             break;
         }
@@ -219,7 +216,6 @@ int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int a
     //looks to the descending columns
     c--;
     for (c; c > 0; c--) {
-       
         if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
             break;
         }
@@ -228,18 +224,40 @@ int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int a
     return move_list;
 }
 
-int **knight_moves() {
-    /*
+int **knight_moves(char **chessboard, int row, int column) {
     int r = row;
     int c = column;
     int rook_color = piece_color(chessboard[row][column]);
     int **move_list = malloc(64 * sizeof(int));
-    int t = 0; //counter variable for the temporary array
+    int t = 0; 
     int *tp = &t;
-    //looks to the ascending rows
-    r++;
-    c++;
-    */
+    
+    if ((r + 2 < 8) && (c + 1 < 8)) {
+        add_move(chessboard, r + 2, c + 1, rook_color, tp, move_list);
+    }
+    if ((r + 1 < 8) && (c + 2 < 8 )) {
+        add_move(chessboard, r + 1, c + 2, rook_color, tp, move_list);
+    }
+    if ((r + 2 < 8) && (c - 1 > 0)) {
+        add_move(chessboard, r + 2, c - 1, rook_color, tp, move_list);
+    }
+    if ((r + 1 < 8) && (c - 2 > 0)) {
+        add_move(chessboard, r + 1, c - 2, rook_color, tp, move_list);
+    }
+    if ((r - 2 > 0) && (c - 1 > 0)) {
+        add_move(chessboard, r - 2, c - 1, rook_color, tp, move_list);
+    }
+    if ((r - 1 > 0) && (c - 2 > 0)) {
+        add_move(chessboard, r - 1, c - 2, rook_color, tp, move_list);
+    }
+    if ((r - 2 > 0) && (c + 1 < 8)) {
+        add_move(chessboard, r - 2, c + 1, rook_color, tp, move_list);
+    }
+    if ((r - 1 > 0) && (c + 2 < 8)) {
+        add_move(chessboard, r - 1, c + 2, rook_color, tp, move_list);
+    }
+    move_list[t + 1] = 0;
+    return move_list;
 }
 
 int **bishop_moves(char **chessboard, int row, int column) {
@@ -247,9 +265,8 @@ int **bishop_moves(char **chessboard, int row, int column) {
     int c = column;
     int rook_color = piece_color(chessboard[row][column]);
     int **move_list = malloc(64 * sizeof(int));
-    int t = 0; //counter variable for the temporary array
+    int t = 0; 
     int *tp = &t;
-    //looks to the ascending rows
     r++;
     c++;
     while((r < 8) && (c < 8)) {
@@ -304,20 +321,31 @@ int pos_moves(int **move_list) {
         i++;
     }
 }
-
+int **king_moves(char **chessboard, int row, int column) {
+    int r = row;
+    int c = column;
+    int rook_color = piece_color(chessboard[row][column]);
+    int **move_list = malloc(64 * sizeof(int));
+    int t = 0; 
+    int *tp = &t;
+    
+    if ((r + 2 < 8) && (c + 1 < 8)) {
+        add_move(chessboard, r + 2, c + 1, rook_color, tp, move_list);
+    }
+}
 int move_valid(int *parsed_moves) {
     
 }
 
 int main() {
     char ** chessboard = setup_board();
-    chessboard[4][5] = 'b';
-    //int **b = bishop_moves(chessboard, 4, 5);
+    chessboard[4][5] = 'n';
+    int **b = knight_moves(chessboard, 4, 5);
     
-    //printf("coords: %d, %d\n", r[0][1], r[0][1]);
-    //pos_moves(b);
     
-    //print_board(chessboard);   
+    pos_moves(b);
+    
+    print_board(chessboard);   
 
     return 0; 
 }
