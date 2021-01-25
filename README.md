@@ -26,7 +26,6 @@ There are no unusual required Libraries
 - Allocating Memory (Storing Chessboard Info)
 - Working with Files (Save Game Functionality)
 - Signals (Checking Client State)
-- Processes (Server, Client1, Client2)
 
 ### Instructions
 - To start compile using make, and start the server with "./server".
