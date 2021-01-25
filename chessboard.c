@@ -224,9 +224,22 @@ int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int a
             break;
         }
     }
-    
     move_list[t + 1] = 0;
     return move_list;
+}
+
+int **knight_moves() {
+    /*
+    int r = row;
+    int c = column;
+    int rook_color = piece_color(chessboard[row][column]);
+    int **move_list = malloc(64 * sizeof(int));
+    int t = 0; //counter variable for the temporary array
+    int *tp = &t;
+    //looks to the ascending rows
+    r++;
+    c++;
+    */
 }
 
 int **bishop_moves(char **chessboard, int row, int column) {
@@ -239,38 +252,48 @@ int **bishop_moves(char **chessboard, int row, int column) {
     //looks to the ascending rows
     r++;
     c++;
-    while(() && ()) {
+    while((r < 8) && (c < 8)) {
         if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
             break;
         }
+        r++;
+        c++;
     }
     r = row;
     c = column;
     r++;
     c--;
-    while(() && ()) {
+    while((r < 8) && (c > 0)) {  
         if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
             break;
         }
+        r++;
+        c--;
     }
     r = row;
     c = column;
     r--;
     c++;
-    while(() && ()) {
+    while((r > 0) && (c < 8)) {
         if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
             break;
         }
+        r--;
+        c++;
     }
     r = row;
     c = column;
     r--;
     c--;
-    while(() && ()) {
+    while((c > 0) && (c > 0)) {
         if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
             break;
         }
+        r--;
+        c--;
     }
+    move_list[t + 1] = 0;
+    return move_list;
 }
 
 int pos_moves(int **move_list) {
@@ -281,15 +304,20 @@ int pos_moves(int **move_list) {
         i++;
     }
 }
+
+int move_valid(int *parsed_moves) {
+    
+}
+
 int main() {
     char ** chessboard = setup_board();
-    chessboard[4][5] = 'r';
-    int **r = rook_moves(chessboard, 4, 5);
+    chessboard[4][5] = 'b';
+    //int **b = bishop_moves(chessboard, 4, 5);
     
     //printf("coords: %d, %d\n", r[0][1], r[0][1]);
-    pos_moves(r);
+    //pos_moves(b);
     
-    print_board(chessboard);   
+    //print_board(chessboard);   
 
     return 0; 
 }
