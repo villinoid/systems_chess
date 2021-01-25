@@ -9,6 +9,7 @@
 #include <wchar.h>
 #include <locale.h>
 #include "chessboard.h"
+#include "pieces.h"
 
 int buff_size = 256;
 int send, receive, server_pid;
