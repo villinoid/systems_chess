@@ -229,6 +229,50 @@ int **rook_moves(char **chessboard, int row, int column) { //returns a 2-D int a
     return move_list;
 }
 
+int **bishop_moves(char **chessboard, int row, int column) {
+    int r = row;
+    int c = column;
+    int rook_color = piece_color(chessboard[row][column]);
+    int **move_list = malloc(64 * sizeof(int));
+    int t = 0; //counter variable for the temporary array
+    int *tp = &t;
+    //looks to the ascending rows
+    r++;
+    c++;
+    while(() && ()) {
+        if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
+            break;
+        }
+    }
+    r = row;
+    c = column;
+    r++;
+    c--;
+    while(() && ()) {
+        if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
+            break;
+        }
+    }
+    r = row;
+    c = column;
+    r--;
+    c++;
+    while(() && ()) {
+        if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
+            break;
+        }
+    }
+    r = row;
+    c = column;
+    r--;
+    c--;
+    while(() && ()) {
+        if (add_move(chessboard, r, c, rook_color, tp, move_list)) {
+            break;
+        }
+    }
+}
+
 int pos_moves(int **move_list) {
     setlocale(LC_CTYPE, "");
     int i = 0;
@@ -254,7 +298,9 @@ int main() {
 checklist:
 1. piece logic
 2. game over (king is eaten)
+-comparison function
 3. who's turn it is
 4. convert to 64-size array
 5. display as black/white
+6. add letters/numbers to board
 */
