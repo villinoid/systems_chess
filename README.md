@@ -7,16 +7,16 @@ Our project is a two-player chess game connected by a server. The board is print
 No external installations are required and everything can be compiled using gcc.
 Here are the list of libaries we used:
 
-- #include <stdio.h>
-- #include <stdlib.h>
-- #include <string.h>
-- #include <sys/types.h>
-- #include <sys/stat.h>
-- #include <unistd.h>
-- #include <fcntl.h>
-- #include <signal.h>
-- #include <wchar.h>
-- #include <locale.h>
+- <stdio.h>
+- <stdlib.h>
+- <string.h>
+- <sys/types.h>
+- <sys/stat.h>
+- <unistd.h>
+- <fcntl.h>
+- <signal.h>
+- <wchar.h>
+- <locale.h>
 
 ### What Aspects of Systems Programming We Used
 - Pipes (Communicating Between Server and Client)
