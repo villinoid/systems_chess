@@ -136,7 +136,7 @@ int main() {
 
 			}
 			//Read from Client 1 send to Client 2
-			else if(player_turn==1) { //Yes its redundant but clearer
+			if(player_turn==1) { //Yes its redundant but clearer
 				printf("Waiting for move from [Player 1]\n");
 				read(receive1, input, buff_size);
 				printf("Server got [Player 1]: \"%s\"\n",input);

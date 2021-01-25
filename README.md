@@ -28,8 +28,9 @@ There are no unusual required Libraries
 - At this point it is player 1's turn, enter a move such as e2e4.
 - After a move is entered, it is the other player's turn, and so the game begins!
 - To save the game, type "save" as player 1, and when prompted choose a name for the save file.
-- To exit, both players need to "Ctrl+C" - Otherwise the server will attempt a reconnection.
+- To exit, both players and server need to "Ctrl+C" - Otherwise the server will attempt a reconnection.
 
 
 ### Bugs
 - When attempting a reconnection, the disconnected user's turn will be skipped.
+- Moving White Bishops causes segfault

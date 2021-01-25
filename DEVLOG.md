@@ -11,3 +11,4 @@
 - 1/25 - Yulin - Added flipped print so board is "right way"
 - 1/25 - Francesco - Added save game functionality
 - 1/25 - Francesco - Finished README and DEVLOG
+- 1/25 - Francesco - Added win condition/game end

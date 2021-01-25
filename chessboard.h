@@ -15,5 +15,6 @@ int in_move_list(int **move_list, int r, int c);
 int char_to_num(char c);
 int move_valid(char **chessboard, int *parsed_moves, char player_number);
 void print_flipped(char **);
+int game_ended(char **);
 
 #endif

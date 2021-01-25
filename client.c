@@ -64,6 +64,7 @@ void save_game(char * save_name, char**board){
 int main() {
 	setlocale(LC_CTYPE, "");
 	int c;
+	int need_to_read_save=1;
 	signal(SIGINT, sighandler);
 	signal(SIGUSR1, sighandler);
 	char input[buff_size];
@@ -80,14 +81,14 @@ int main() {
 	// /*
 	wprintf(L"Do you want to be player 1 or 2: \n");
 	player_choice=fgetc(stdin);
-	wprintf(L"player_choice: %c\n", player_choice);
+	//wprintf(L"player_choice: %c\n", player_choice);
 	if(player_choice=='1') {
 		send = open("1stPlayerPipe", O_WRONLY);//Player 1
-		wprintf(L"Sent1\n");
+		//wprintf(L"Sent1\n");
 	}
 	else{
 		send = open("2ndPlayerPipe", O_WRONLY);//Player 2
-		wprintf(L"Sent2\n");
+		//wprintf(L"Sent2\n");
 	}
 
 	//SAVE GAME LOAD - Player 1
@@ -98,7 +99,7 @@ int main() {
 		while(load_game!='y'&&load_game!='n') {
 			load_game=fgetc(stdin);
 		}
-		wprintf(L"Load game choice: %c\n", load_game);
+		//wprintf(L"Load game choice: %c\n", load_game);
 		if(load_game=='y') {
 			wprintf(L"Enter save name: \n");
 			fgets(input, buff_size, stdin);
@@ -136,7 +137,7 @@ int main() {
 	//send = open("1stPlayerPipe", O_WRONLY);//Player 1
 	write(send, private_pipe, buff_size);
 
-	wprintf(L"Waiting For Response From Server\n");
+	wprintf(L"Waiting For Response From Server...\n");
 
 
 	receive = open(private_pipe, O_RDONLY);
@@ -146,30 +147,33 @@ int main() {
 	wprintf(L"Server PID: %d\n", atoi(input));
 	server_pid = atoi(input);
 
-	wprintf(L"Sending Message Back to Server to Complete Handshake \n");
+	wprintf(L"Sending Message Back to Server to Complete Handshake... \n");
 	write(send, input, buff_size);
 
 	//Deprecated after save game update
 	/*
-	if (player_choice=='2') {
-		print_board(chessboard);
-	}
-	else{
-		print_flipped(chessboard);
-	}
-	*/
+	   if (player_choice=='2') {
+	        print_board(chessboard);
+	   }
+	   else{
+	        print_flipped(chessboard);
+	   }
+	 */
 
 
 	while(1) {
 		while(!both_connected);
 
 		if (player_choice=='1') {//player 1 starts the game so it writes a move first
-			//Send chessboard to player 2 (for saves)
-			write_board(chessboard,input);
-			write(send, input, buff_size);
-			wprintf(L"\nBoard sent to Player 2 \n");
-			wprintf(L"\nLoaded - Ready to Start:\n");
-			print_flipped(chessboard);
+			if(need_to_read_save) {
+				//Send chessboard to player 2 (for saves)
+				write_board(chessboard,input);
+				write(send, input, buff_size);
+				wprintf(L"\nBoard sent to Player 2 \n");
+				wprintf(L"\nLoaded - Ready to Start:\n");
+				print_flipped(chessboard);
+				need_to_read_save=0;
+			}
 			//
 			wprintf(L"\nInput: \n");
 			fgets(input, buff_size, stdin);
@@ -186,7 +190,6 @@ int main() {
 				fgets_format(input);
 				save_game(input,chessboard);
 				kill(server_pid, SIGUSR1);
-				//ADD KILL TO OTHER PROCESS
 				kill(getpid(),SIGINT);
 			}
 			//SAVE GAME HERE
@@ -210,23 +213,39 @@ int main() {
 			write(send, input, buff_size);
 
 			read(receive, output, buff_size);
-			//SAVE GAME INTERCEPT HERE
-
-			//SAVE GAME INTERCEPT HERE
+			//Check win
+			//wprintf(L"\nChecking Win: %s\n",output);
+			if(output[0]=='T'){
+				wprintf(L"\nTHE GAME HAS ENDED!!! - BLACK WINS!!!\n");
+				kill(getpid(),SIGINT);
+			}
+			if(output[0]=='t'){//This shouldnt actually do anything
+				wprintf(L"\nTHE GAME HAS ENDED!!! - WHITE WINS!!!\n");
+				kill(getpid(),SIGINT);
+			}
+			//wprintf(L"\nQue?\n");
 			read_board(chessboard, output);
 			wprintf(L"\nOutput:\n");
 			print_flipped(chessboard);
 		}
 		else {
 			//Read board state for saves
+			if(need_to_read_save) {
+				read(receive, output, buff_size);
+				read_board(chessboard, output);
+				wprintf(L"\nStart:\n");
+				print_board(chessboard);
+				need_to_read_save=0;
+			}
+
 
 			read(receive, output, buff_size);
-			read_board(chessboard, output);
-			wprintf(L"\nStart:\n");
-			print_board(chessboard);
+			//Check win
+			if(output[1]=='T')
+				wprintf(L"\nTHE GAME HAS ENDED!!! - BLACK WINS!!!\n");
+			if(output[1]=='t')
+				wprintf(L"\nTHE GAME HAS ENDED!!! - WHITE WINS!!!\n");
 
-
-			read(receive, output, buff_size);
 			read_board(chessboard, output);
 			wprintf(L"\nOutput:\n");
 			print_board(chessboard);
@@ -250,6 +269,20 @@ int main() {
 			chessboard[move[2]][move[3]]=chessboard[move[0]][move[1]];
 			chessboard[move[0]][move[1]]='+';
 			print_board(chessboard);
+			//Check if king dead
+			//wprintf(L"game_ended: %d\n",game_ended(chessboard));
+			if(game_ended(chessboard)==1) {
+				wprintf(L"\nTHE GAME HAS ENDED!!! - WHITE WINS!!!\n");
+				write(send, "t", 1);
+				kill(server_pid, SIGUSR1);
+				kill(getpid(),SIGINT);
+			}
+			if(game_ended(chessboard)==2) {
+				wprintf(L"\nTHE GAME HAS ENDED!!! - BLACK WINS!!!\n");
+				write(send, "T", 1);
+				kill(server_pid, SIGUSR1);
+				kill(getpid(),SIGINT);
+			}
 			write_board(chessboard,input);
 
 			write(send, input, buff_size);
