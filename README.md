@@ -30,16 +30,17 @@ There are no unusual required libraries
 ### Instructions
 - To start compile using make, and start the server with "./server".
 - Start 2 clients using "./client" and when prompted make one player 1 and the other 2.
+    - You can then decide to load a saved game or start a new one (more info below)
     - Please complete all player 1 processes before initializing player 2 (that is, enter "1" when prompted and y/n for saved game before entering "2" for player 2)
-- At this point it is player 1's turn, enter a move. You start by writing the coordinates of the piece you want to move, letter first then number, and then by writing the coordinates of the place you want to move the piece to (An example move is e2e4. - Don't Worry, "wrong" moves won't be allowed by the program.
-- After a move is entered, it is the other player's turn, and so the game begins!
+- At this point it is player 1's turn, enter a move. You start by writing the coordinates of the piece you want to move, letter first then number, and then by writing the coordinates of the place you want to move the piece to (An example move is e2e4. Don't worry, "wrong" moves won't be allowed by the program.)
+- After a move is entered, the other player will be prompted for a move and so the game begins!
 - When a king is eaten by another piece, the game will end, and you will be greeted by a victory message.
-- You can then decide to load a saved game or start a new one
+- To save the game, type "save" as player 1, and when prompted, choose a name for the save file.
     - When a game is saved, the client will auto-disconnect
-    - To save the game, type "save" as player 1, and when prompted choose a name for the save file.
+    - You can load this game in later when re-connecting the client and typing in the name 
 - To exit, both players and server need to "Ctrl+C" - Otherwise the server will attempt a reconnection.
 
 
 ### Bugs/Limitations
 - When attempting a reconnection, the disconnected user's turn will be skipped.
-- Not all chess rules implemented - Castling and Pawn changing when touching the opponents edge of the board not implemented.
+- Not all chess rules implemented - Castling and Pawn promoting when reaching the opponent's edge of the board was not implemented.
