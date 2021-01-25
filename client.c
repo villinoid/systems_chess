@@ -85,17 +85,21 @@ int main() {
 	wprintf(L"Sending Message Back to Server to Complete Handshake \n");
 	write(send, input, buff_size);
 	//program doesn't continue if i don't flush stdin for some reason?
-	print_board(chessboard);
+	if (player_choice=='2'){
+		print_board(chessboard);
+	}
+	else{
+		print_flipped(chessboard);
+	}
 
 
 	while(1) {
-		while(!both_connected);
+		//while(!both_connected);
 		
 		if (player_choice=='1'){//player 1 starts the game so it writes a move first
 			wprintf(L"\nInput: \n");
 			fgets(input, buff_size, stdin);
-			wprintf(L"input: %s\n", input);
-			if (!strcmp(input, "")){
+			if (!(strcmp(input, "\n"))){
 				fgets(input, buff_size, stdin);
 				c=1;
 			}
@@ -113,7 +117,7 @@ int main() {
 			wprintf(L"moves: %d, %d, %d, %d\n",move[0],move[1],move[2],move[3]);
 			chessboard[move[2]][move[3]]=chessboard[move[0]][move[1]];
 			chessboard[move[0]][move[1]]='+';
-			print_board(chessboard);
+			print_flipped(chessboard);
 			
 			write_board(chessboard,input);
 			wprintf(L"wrote: %s",input);
@@ -122,7 +126,7 @@ int main() {
 			read(receive, output, buff_size);
 			read_board(chessboard, output);
 			wprintf(L"\nOutput:\n");
-			print_board(chessboard);
+			print_flipped(chessboard);
 		}
 		else {
 			read(receive, output, buff_size);
@@ -132,12 +136,10 @@ int main() {
 			
 			wprintf(L"\nInput: \n");
 			fgets(input, buff_size, stdin);
-			wprintf(L"input: %s",input);
-			if (!strcmp(input, "")){
+			if (!strcmp(input, "\n")){
 				fgets(input, buff_size, stdin);
 			}
 			fgets_format(input);
-			wprintf(L"move received from stdin: %s",input);
 			move=move_parse(input);
 			if (!move_valid(chessboard,move)){////REPLACE with move_valid when Yulin done
 				while(!move_valid(chessboard,move)){////REPLACE with move_valid when Yulin done
@@ -148,7 +150,6 @@ int main() {
 					move=move_parse(input);
 				}
 			}
-			wprintf(L"moves: %d, %d, %d, %d\n",move[0],move[1],move[2],move[3]);
 			chessboard[move[2]][move[3]]=chessboard[move[0]][move[1]];
 			chessboard[move[0]][move[1]]='+';
 			print_board(chessboard);

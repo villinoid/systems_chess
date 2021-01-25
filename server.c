@@ -126,7 +126,6 @@ int main() {
 			kill(cid2,SIGUSR1);
 		}
 		//fflush(stdin); //Might be needed idk
-		printf("acycle\n");
 		if(!did_handshake) {//Don't read right after handshake - causes probs?
 			//Read from Client 1 send to Client 2
 			if(player_turn==1) { //Yes its redundant but clearer
