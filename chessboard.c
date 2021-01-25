@@ -502,7 +502,7 @@ int **on_square(char **chessboard, int r, int c) {
 int in_move_list(int **move_list, int r, int c) {
     int i = 0;
     while (move_list[i]) {
-        if ((move_list[i][0] == r) || (move_list[i][1] == c)) {
+        if ((move_list[i][0] == r) && (move_list[i][1] == c)) {
             return 1;
         }
         i++;
@@ -528,20 +528,22 @@ int move_valid(char **chessboard, int *parsed_moves) {
         }
     }
 }
+/*
+int main() {
+    char ** chessboard = setup_board();
+    char move[4] = "e4e2";
+    int *pmove = move_parse(move);
+    //printf("%d %d\n", pmove[0], pmove[1]);
+    //move_valid(chessboard, pmove);
+    printf("%d\n", move_valid(chessboard, pmove));
+    // chessboard[5][3] = 'P';
+    // int **b = pawn_moves(chessboard, 6, 2);
+    // pos_moves(b);
+    // print_board(chessboard);   
 
-// int main() {
-//     char ** chessboard = setup_board();
-//     chessboard[5][3] = 'P';
-//     int **b = pawn_moves(chessboard, 6, 2);
-    
-    
-//     pos_moves(b);
-    
-//     print_board(chessboard);   
-
-//     return 0; 
-// }
-
+    return 0; 
+}
+*/
 /*
 checklist:
 1. piece logic
