@@ -1,4 +1,4 @@
-#DEVLOG
+# DEVLOG
 
 - 1/12 - Francesco Vlad and Yulin - Worked on Initial Proposal
 - 1/18 - Vlad and Yulin - Added server framework - Similar to HW 17 - Server communicates with 1 client - Adapted to work with 2 clients.
