@@ -35,7 +35,7 @@ Here are the list of libaries we used:
 - To save the game, type "save" as player 1, and when prompted, choose a name for the save file.
     - When a game is saved, the client will auto-disconnect
     - You can load this game in later when re-connecting the client and typing in the name 
-- To exit, both players and server need to "Ctrl+C" - Otherwise the server will attempt a reconnection.
+- To exit, both players and server need to "Ctrl+C". Otherwise, the server will attempt a reconnection.
 
 ### Notes
 - The terminal being used has to support unicode output
@@ -44,4 +44,5 @@ Here are the list of libaries we used:
 
 ### Bugs/Limitations
 - When attempting a reconnection, the disconnected user's turn will be skipped.
-- Not all chess rules implemented - Castling and Pawn promoting when reaching the opponent's edge of the board was not implemented.
+- After both clients disconnect, there might be issues reconnecting back to the server, so it is best to restart the server as well.
+- Not all chess rules implemented - Castling and Pawn promoting when reaching the opponent's edge of the board was not implemented. Also, there is no checkmate and check, just capturing the king ends the game.
