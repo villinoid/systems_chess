@@ -8,7 +8,7 @@ Our project is a 2 player and 1 server chess game. The board is printed in unico
 - White terminal is best - otherwise pieces will have inverted colors
 
 ### Libraries
-There are no unusual required Libraries
+There are no unusual required libraries
 
 - #include <stdio.h>
 - #include <stdlib.h>
@@ -22,7 +22,7 @@ There are no unusual required Libraries
 - #include <locale.h>
 
 ### What Aspects of Systems Programming We Used
-- Pipes (Named and Unnamed)
+- Pipes (Communicating Between Server and Client)
 - Allocating Memory (Storing Chessboard Info)
 - Working with Files (Save Game Functionality)
 - Signals (Checking Client State)
@@ -30,11 +30,13 @@ There are no unusual required Libraries
 ### Instructions
 - To start compile using make, and start the server with "./server".
 - Start 2 clients using "./client" and when prompted make one player 1 and the other 2.
-- You can then decide to load a saved game or start a new one
+    - Please complete all player 1 processes before initializing player 2 (that is, enter "1" when prompted and y/n for saved game before entering "2" for player 2)
 - At this point it is player 1's turn, enter a move. You start by writing the coordinates of the piece you want to move, letter first then number, and then by writing the coordinates of the place you want to move the piece to (An example move is e2e4. - Don't Worry, "wrong" moves won't be allowed by the program.
 - After a move is entered, it is the other player's turn, and so the game begins!
 - When a king is eaten by another piece, the game will end, and you will be greeted by a victory message.
-- To save the game, type "save" as player 1, and when prompted choose a name for the save file.
+- You can then decide to load a saved game or start a new one
+    - When a game is saved, the client will auto-disconnect
+    - To save the game, type "save" as player 1, and when prompted choose a name for the save file.
 - To exit, both players and server need to "Ctrl+C" - Otherwise the server will attempt a reconnection.
 
 
