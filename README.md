@@ -1,14 +1,11 @@
 ## Two Player Chess Client
 By Francesco Siniscalco, Vladislav Vostrikov and Yulin Zheng - Period 10
 
-Our project is a 2 player and 1 server chess game. The board is printed in unicode, and the server manages the turn based gameplay. The game checks whether moves are valid, and has a save game state function.
-
-### Notes
-- Terminal used has to support unicode
-- White terminal is best - otherwise pieces will have inverted colors
+Our project is a two-player chess game connected by a server. The board is printed in unicode, and the server manages the turn based gameplay. The game checks whether moves are valid, and has a save game state feature.
 
 ### Libraries
-There are no unusual required libraries
+No external installations are required and everything can be compiled using gcc.
+Here are the list of libaries we used:
 
 - #include <stdio.h>
 - #include <stdlib.h>
@@ -40,6 +37,10 @@ There are no unusual required libraries
     - You can load this game in later when re-connecting the client and typing in the name 
 - To exit, both players and server need to "Ctrl+C" - Otherwise the server will attempt a reconnection.
 
+### Notes
+- The terminal being used has to support unicode output
+- Please use a terminal with a white background 
+    - If a dark background is used, the pieces will have inverted colors
 
 ### Bugs/Limitations
 - When attempting a reconnection, the disconnected user's turn will be skipped.
