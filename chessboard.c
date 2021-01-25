@@ -45,7 +45,7 @@ char **setup_board() {
                 chessboard[row][column] =  'P';
             }
         }
-        else {     
+        else {
             if (row == 6) { // this is the row of black pawns
                 for (column; column < 8; column++) {
                     chessboard[row][column] =  'p';
@@ -109,7 +109,7 @@ wchar_t piece_translate(char piece) { //returns the unicode chess piece
     }
     if (piece == 'R') {
         return w_rook;
-    }   
+    }
     if (piece == 'Q') {
         return w_queen;
     }
@@ -141,7 +141,7 @@ void print_board(char **chessboard) {
     int row = 0;
     wprintf(L"  | h  | g  | f  | e  | d  | c  | b  | a  |\n");
     wprintf(L"-------------------------------------------\n");
-    for (row; row < 8; row++) { 
+    for (row; row < 8; row++) {
         int column = 0;
         wprintf(L"%d ", row + 1);
         for (column; column < 8; column++) {
@@ -164,7 +164,7 @@ void print_flipped(char **chessboard) {
     int row = 7;
     wprintf(L"  | a  | b  | c  | d  | e  | f  | g  | h  |\n");
     wprintf(L"-------------------------------------------\n");
-    for (row; row >= 0; row--) { 
+    for (row; row >= 0; row--) {
         int column = 7;
         wprintf(L"%d ", row + 1);
         for (column; column >= 0; column--) {
@@ -194,7 +194,7 @@ int *move_parse(char *move) { //turns a move like e2e4 into an array of four num
 int piece_color(char piece) { //returns 0 if square is empty, 1 if white, 2 if black
     if ((piece > 96) && (piece < 123)) { // in the range of lowercase letters
         return 2;
-    } 
+    }
     else {
         if ((piece > 64) && (piece < 91)) { // in the range of uppercase letters
             return 1;
@@ -320,8 +320,8 @@ int main() {
     // chessboard[5][3] = 'P';
     // int **b = pawn_moves(chessboard, 6, 2);
     // pos_moves(b);
-    print_flipped(chessboard);   
+    print_flipped(chessboard);
 
-    return 0; 
+    return 0;
 }
 */

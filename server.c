@@ -105,6 +105,7 @@ int main() {
 	signal(SIGUSR1, sighandler);
 	signal(SIGUSR2, sighandler);
 	int did_handshake=0;
+	int board_sent=0;
 
 	while(1) {
 		did_handshake=0; //Was handshake done on cycle "bool" var
@@ -127,8 +128,15 @@ int main() {
 		}
 		//fflush(stdin); //Might be needed idk
 		if(!did_handshake) {//Don't read right after handshake - causes probs?
+			if(!board_sent){
+				printf("[Player 1] sending board to [Player 2]\n");
+				read(receive1, input, buff_size);
+				write(send2, input, buff_size);
+				board_sent=1;
+
+			}
 			//Read from Client 1 send to Client 2
-			if(player_turn==1) { //Yes its redundant but clearer
+			else if(player_turn==1) { //Yes its redundant but clearer
 				printf("Waiting for move from [Player 1]\n");
 				read(receive1, input, buff_size);
 				printf("Server got [Player 1]: \"%s\"\n",input);
@@ -152,31 +160,6 @@ int main() {
 
 
 
-	/*
-	    while(1) {
-	            //Check client 1
-	    printf("Checking Client 1:\n");
-	            if (connection_client_1) {
-	                    read(receive1, input, buff_size);
-	                    printf("Server [Player 1] got: \"%s\"\n",input);
-	                    write(send1, count(input), buff_size);
-	            }
-	            else {
-	                    handshake();
-	            }
-	            //Check client 2
-	    printf("Checking Client 2:\n");
-	            if (connection_client_2) {
-	                    read(receive2, input, buff_size);
-	                    printf("Server [Player 2] got: \"%s\"\n",input);
-	                    write(send2, count(input), buff_size);
-	            }
-	            else {
-	                    handshake();//Makes Player 2 Pipe
 
-	            }
-
-	    }
-	 */
 
 }
