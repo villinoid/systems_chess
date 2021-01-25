@@ -277,8 +277,16 @@ int in_move_list(int **move_list, int r, int c) {
     }
     return 0;
 }
+char char_to_num(char c) {
+    if (c == '1') {
+        return 1;
+    }
+    if (c == '2') {
+        return 2;
+    }
+}
 
-int move_valid(char **chessboard, int *parsed_moves) {
+int move_valid(char **chessboard, int *parsed_moves, char player_number) {
     int a = parsed_moves[0];
     int b = parsed_moves[1];
     int c = parsed_moves[2];
@@ -287,9 +295,14 @@ int move_valid(char **chessboard, int *parsed_moves) {
         return 0;
     }
     else {
-        int **move_list = on_square(chessboard, a, b);
-        if (in_move_list(move_list, c, d)) {
-            return 1;
+        if (piece_color(chessboard[a][b]) == char_to_num(player_number)) {
+            int **move_list = on_square(chessboard, a, b);
+            if (in_move_list(move_list, c, d)) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
         }
         else {
             return 0;

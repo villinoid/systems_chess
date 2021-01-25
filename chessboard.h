@@ -12,7 +12,8 @@ void write_board(char **, char *);
 int pos_moves(int **move_list);
 int **on_square(char **chessboard, int r, int c);
 int in_move_list(int **move_list, int r, int c);
-int move_valid(char **chessboard, int *parsed_moves);
+int char_to_num(char c);
+int move_valid(char **chessboard, int *parsed_moves, char player_number);
 void print_flipped(char **);
 
 #endif

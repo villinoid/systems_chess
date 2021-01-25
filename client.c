@@ -106,8 +106,8 @@ int main() {
 			}
 			fgets_format(input);
 			move=move_parse(input);
-			if (!move_valid(chessboard,move)){//REPLACE with move_valid when Yulin done
-				while(!move_valid(chessboard,move)){//REPLACE with move_valid when Yulin done
+			if (!move_valid(chessboard,move,player_choice)){//REPLACE with move_valid when Yulin done
+				while(!move_valid(chessboard,move,player_choice)){//REPLACE with move_valid when Yulin done
 					wprintf(L"Impossible move. Input another.\n");
 					wprintf(L"\nInput: \n");
 					fgets(input, buff_size, stdin);
@@ -142,8 +142,8 @@ int main() {
 			}
 			fgets_format(input);
 			move=move_parse(input);
-			if (!move_valid(chessboard,move)){////REPLACE with move_valid when Yulin done
-				while(!move_valid(chessboard,move)){////REPLACE with move_valid when Yulin done
+			if (!move_valid(chessboard,move,player_choice)){////REPLACE with move_valid when Yulin done
+				while(!move_valid(chessboard,move,player_choice)){////REPLACE with move_valid when Yulin done
 					wprintf(L"Impossible move. Input another.\n");
 					wprintf(L"\nInput: \n");
 					fgets(input, buff_size, stdin);
