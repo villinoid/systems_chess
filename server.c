@@ -15,7 +15,7 @@ int send2, receive2;//Send/Recieve pipe to player 2
 int connection_client_1 = 0;//Is there a connection to player 1?
 int connection_client_2 = 0;//Is there a connection to player 2?
 int player_turn=1;//First turn is player 1's
-
+int cid1, cid2;
 void handshake() {
 	//Player 1 Connection Process
 	if(!connection_client_1) {
@@ -27,7 +27,7 @@ void handshake() {
 		//Player 1 send pid - name of its pipe - to server
 		read(receive1, input, buff_size);
 		printf("Received Information From Process %s\n", input);
-
+		cid1=atoi(input);
 		send1 = open(input, O_WRONLY);//Open player 1 pipe
 		char server_pid[100];
 		sprintf(server_pid, "%d", getpid());
@@ -50,7 +50,7 @@ void handshake() {
 		//Player 1 send pid - name of its pipe - to server
 		read(receive2, input, buff_size);
 		printf("Received Information From Process %s\n", input);
-
+		cid2=atoi(input);
 		send2 = open(input, O_WRONLY);//Open player 2 pipe
 		char server_pid[100];
 		sprintf(server_pid, "%d", getpid());
@@ -121,9 +121,12 @@ int main() {
 			did_handshake=1;
 		}
 		sleep(1); //Debug Waiter
-
+		if (did_handshake){
+			kill(cid1,SIGUSR1);
+			kill(cid2,SIGUSR1);
+		}
 		//fflush(stdin); //Might be needed idk
-
+		printf("acycle\n");
 		if(!did_handshake) {//Don't read right after handshake - causes probs?
 			//Read from Client 1 send to Client 2
 			if(player_turn==1) { //Yes its redundant but clearer

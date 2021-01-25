@@ -6,11 +6,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <wchar.h>
+#include <locale.h>
 #include "chessboard.h"
 
 int buff_size = 256;
 int send, receive, server_pid;
 int player_choice=0;
+int both_connected=0;
 
 static void sighandler(int signo) {
 	if (signo == SIGINT) {
@@ -25,6 +28,9 @@ static void sighandler(int signo) {
 		close(receive);
 		exit(0);
 	}
+	if (signo == SIGUSR1){
+		both_connected=1;
+	}
 }
 
 void fgets_format(char* s){
@@ -36,7 +42,9 @@ void fgets_format(char* s){
 }
 
 int main() {
+	setlocale(LC_CTYPE, "");
 	signal(SIGINT, sighandler);
+	signal(SIGUSR1, sighandler);
 	char input[buff_size];
 	char output[buff_size];
 	int *move;
@@ -48,86 +56,95 @@ int main() {
 
 	//Query Player 1 or 2
 	// /*
-	printf("Do you want to be player 1 or 2: \n");
+	wprintf(L"Do you want to be player 1 or 2: \n");
 	player_choice=fgetc(stdin);
-    printf("player_choice: %d\n", player_choice);
+    wprintf(L"player_choice: %d\n", player_choice);
 	if(player_choice=='1') {
 		send = open("1stPlayerPipe", O_WRONLY);//Player 1
-        printf("Sent1\n");
+        wprintf(L"Sent1\n");
 	}
 	else{
 		send = open("2ndPlayerPipe", O_WRONLY);//Player 2
-        printf("Sent2\n");
+        wprintf(L"Sent2\n");
 	}
 	// */
 	//send = open("1stPlayerPipe", O_WRONLY);//Player 1
 	write(send, private_pipe, buff_size);
 
-	printf("Waiting For Response From Server\n");
+	wprintf(L"Waiting For Response From Server\n");
 
 
 	receive = open(private_pipe, O_RDONLY);
 	read(receive, input, buff_size);
 	remove(private_pipe);
 
-	printf("Server PID: %d\n", atoi(input));
+	wprintf(L"Server PID: %d\n", atoi(input));
 	server_pid = atoi(input);
 
-	printf("Sending Message Back to Server to Complete Handshake \n");
-	write(send, "Handshake Complete", buff_size);
+	wprintf(L"Sending Message Back to Server to Complete Handshake \n");
+	write(send, input, buff_size);
 	//program doesn't continue if i don't flush stdin for some reason?
 	print_board(chessboard);
 
 
 	while(1) {
+		while(!both_connected);
 		
 		if (player_choice=='1'){//player 1 starts the game so it writes a move first
-			printf("\nInput: \n");
+			wprintf(L"\nInput: \n");
+			fflush(stdin);
 			fgets(input, buff_size, stdin);
+			if (strcmp(input, "")){
+				fgets(input, buff_size, stdin);
+			}
 			fgets_format(input);
 			move=move_parse(input);
 			if (0){//REPLACE with move_valid when Yulin done
 				while(0){//REPLACE with move_valid when Yulin done
-					printf("Impossible move. Input another.\n");
-					printf("\nInput: \n");
+					wprintf(L"Impossible move. Input another.\n");
+					wprintf(L"\nInput: \n");
 					fgets(input, buff_size, stdin);
 					fgets_format(input);
 					move=move_parse(input);
 				}
 			}
-			
+			wprintf(L"moves: %d, %d, %d, %d\n",move[1],move[2],move[3],move[4]);
 			chessboard[move[3]][move[4]]=chessboard[move[1]][move[2]];
 			chessboard[move[1]][move[2]]=0;
 			
 			write_board(chessboard,input);
-
+			wprintf(L"wrote: %s",input);
 			write(send, input, buff_size);
 
 			read(receive, output, buff_size);
 			read_board(chessboard, output);
-			printf("\nOutput:\n");
+			wprintf(L"\nOutput:\n");
 			print_board(chessboard);
 		}
 		else {
 			read(receive, output, buff_size);
 			read_board(chessboard, output);
-			printf("\nOutput:\n");
+			wprintf(L"\nOutput:\n");
 			print_board(chessboard);
 			
-			printf("\nInput: \n");
+			wprintf(L"\nInput: \n");
 			fgets(input, buff_size, stdin);
+			wprintf(L"input: %s",input);
+			if (strcmp(input, "")){
+				fgets(input, buff_size, stdin);
+			}
 			fgets_format(input);
 			move=move_parse(input);
 			if (0){////REPLACE with move_valid when Yulin done
 				while(0){////REPLACE with move_valid when Yulin done
-					printf("Impossible move. Input another.\n");
-					printf("\nInput: \n");
+					wprintf(L"Impossible move. Input another.\n");
+					wprintf(L"\nInput: \n");
 					fgets(input, buff_size, stdin);
 					fgets_format(input);
 					move=move_parse(input);
 				}
 			}
-			
+			wprintf(L"moves: %d, %d, %d, %d\n",move[1],move[2],move[3],move[4]);
 			chessboard[move[3]][move[4]]=chessboard[move[1]][move[2]];
 			chessboard[move[1]][move[2]]=0;
 			

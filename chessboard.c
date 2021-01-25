@@ -9,6 +9,26 @@
 
 int turn_number = 0; //if turn number even, white to move
 
+void read_board(char **chessboard, char *input){
+    int i;
+    int j;
+    for(i=0;i<8;i++){
+        for(j=0;j<8;j++){
+            chessboard[i][j]=input[8*i+j];
+        }
+    }
+}
+
+void write_board(char **chessboard, char *output){
+    int i;
+    int j;
+    for(i=0;i<8;i++){
+        for(j=0;j<8;j++){
+            output[8*i+j]=chessboard[i][j];
+        }
+    }
+}
+
 char **setup_board() {
     char **chessboard = malloc(8*sizeof(char*)); //creating an array to store each row
     int row = 0;
@@ -338,18 +358,18 @@ int move_valid(int *parsed_moves) {
     
 }
 
-int main() {
-    char ** chessboard = setup_board();
-    chessboard[4][5] = 'n';
-    int **b = knight_moves(chessboard, 4, 5);
+// int main() {
+//     char ** chessboard = setup_board();
+//     chessboard[4][5] = 'n';
+//     int **b = knight_moves(chessboard, 4, 5);
     
     
-    pos_moves(b);
+//     pos_moves(b);
     
-    print_board(chessboard);   
+//     print_board(chessboard);   
 
-    return 0; 
-}
+//     return 0; 
+// }
 
 /*
 checklist:
