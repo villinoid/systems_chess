@@ -160,7 +160,7 @@ int piece_color(char piece) { //returns 0 if square is empty, 1 if white, 2 if b
 }
 
 int add_move(char **chessboard, int r, int c, int color, int *tp, int **move_list) {
-    if (piece_color(chessboard[r][c]) == '+') {
+    if (piece_color(chessboard[r][c]) == 0) {
         int *temp_arr = malloc(2*sizeof(int));
         temp_arr[0] = r;
         temp_arr[1] = c;
@@ -400,11 +400,11 @@ int **pawn_moves(char **chessboard, int row, int column) {
         }
         if (r + 1 < 8) {
             int p = piece_color(chessboard[r + 1][c]);
-            if (p == '+') {
+            if (p == 0) {
                 pawn_add_move(chessboard, r + 1, c, tp, move_list);
                 if (row == 1) {
                     int p1 = piece_color(chessboard[r + 2][c]);
-                    if (p1 == '+') {
+                    if (p1 == 0) {
                         pawn_add_move(chessboard, r + 2, c, tp, move_list);
                     }
                 }
@@ -426,11 +426,11 @@ int **pawn_moves(char **chessboard, int row, int column) {
         }
         if (r - 1 < 8) {
             int p = piece_color(chessboard[r - 1][c]);
-            if (p == '+') {
+            if (p == 0) {
                 pawn_add_move(chessboard, r - 1, c, tp, move_list);
                 if (row == 1) {
                     int p1 = piece_color(chessboard[r - 2][c]);
-                    if (p1 == '+') {
+                    if (p1 == 0) {
                         pawn_add_move(chessboard, r - 2, c, tp, move_list);
                     }
                 }
